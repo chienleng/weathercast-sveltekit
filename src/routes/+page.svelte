@@ -2,18 +2,25 @@
 	import { browser } from '$app/environment'
 	import { goto } from '$app/navigation'
 	import Locations from '$lib/data/locations.js'
+	import { location } from '$lib/stores/location.js'
 
 	/** @type {import('./$types').PageData} */
 	export let data
 
 	$: console.log(data)
 	$: current = data?.current
-	$: if (!current) {
-		console.log('no data, set to default location', Locations[0])
-		// get browser location if failed, default to first locations
-		if (browser) {
-			const defaultLocation = Locations[0]
-			goto(`/?latitude=${defaultLocation.latitude}&longitude=${defaultLocation.longitude}`)
+
+	$: console.log('available', $location.available)
+	$: console.log('checked', $location.checked)
+	$: if (browser) {
+		if (!current) {
+			if ($location.available) {
+				goto(`/?latitude=${$location.latitude}&longitude=${$location.longitude}`)
+			} else {
+				// show pick list of locations
+				const defaultLocation = Locations[0]
+				goto(`/?city=${defaultLocation.code}`)
+			}
 		}
 	}
 </script>

@@ -1,20 +1,30 @@
 import { PUBLIC_API_ROOT } from '$env/static/public'
+import Locations from '$lib/data/locations.js'
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ fetch, url }) {
 	const params = url.searchParams
-	const latitude = params.get('latitude')
-	const longitude = params.get('longitude')
+	let latitude = params.get('latitude')
+	let longitude = params.get('longitude')
+	const city = params.get('city')
+
 	/** @type {import('$lib/types').CurrentWeather | null}*/
 	let current = null
 
-	if (latitude) {
-		const res = await fetch(getWeatherApiPath(latitude, longitude))
+	if (city) {
+		const location = Locations.find((d) => d.code === city.toUpperCase())
+
+		if (location) {
+			latitude = location.latitude
+			longitude = location.longitude
+		}
+	}
+
+	if (latitude && longitude) {
+		const res = await fetch(getOpenMeteoApiPath(latitude, longitude))
 		const forecast = await res.json()
 
 		if (forecast) {
-			console.log(forecast)
-			// parse response
 			current = forecast.current_weather
 		}
 	}
@@ -40,7 +50,7 @@ function getObjectAsQueryString(obj) {
  * @param {string | null} longitude
  * @returns {string} API path
  */
-function getWeatherApiPath(latitude, longitude) {
+function getOpenMeteoApiPath(latitude, longitude) {
 	const apiPath = `${PUBLIC_API_ROOT}/v1/forecast`
 	const obj = {
 		latitude,
