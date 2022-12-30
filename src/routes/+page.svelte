@@ -4,11 +4,16 @@
 	import Locations from '$lib/data/locations.js'
 	import { location } from '$lib/stores/location.js'
 
+	import CurrentConditions from '$lib/components/CurrentConditions.svelte'
+	import LocationSelection from '$lib/components/LocationSelection.svelte'
+	import DailyForecasts from '$lib/components/DailyForecasts.svelte'
+
 	/** @type {import('./$types').PageData} */
 	export let data
 
 	$: console.log(data)
 	$: current = data?.current
+	$: forecasts = data?.forecasts || []
 
 	$: console.log('available', $location.available)
 	$: console.log('checked', $location.checked)
@@ -25,10 +30,15 @@
 	}
 </script>
 
-<ul>
-	<li>{current?.temperature}</li>
-	<li>{current?.time}</li>
-	<li>{current?.weathercode}</li>
-	<li>{current?.winddirection}</li>
-	<li>{current?.windspeed}</li>
-</ul>
+<h1>Weathercast SK</h1>
+
+<hr />
+<LocationSelection />
+<hr />
+{#if current}
+	<CurrentConditions {...current} />
+
+	<hr />
+
+	<DailyForecasts {forecasts} />
+{/if}

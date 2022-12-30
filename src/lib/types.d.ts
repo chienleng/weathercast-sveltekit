@@ -13,3 +13,12 @@ export type Location = {
 	latitude: number
 	longitude: number
 }
+
+export type Forecast = {
+	time: string
+	temperatureMin: number
+	temperatureMax: number
+	weatherCode: number
+	weatherIcon: string
+	weatherDescription: string
+}

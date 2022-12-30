@@ -3,4 +3,12 @@
 	import '../app.css'
 </script>
 
-<slot />
+<div>
+	<slot />
+</div>
+
+<style>
+	div {
+		padding: 1rem;
+	}
+</style>
