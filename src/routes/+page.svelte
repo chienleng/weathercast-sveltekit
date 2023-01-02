@@ -14,6 +14,7 @@
 	$: console.log(data)
 	$: current = data?.current
 	$: forecasts = data?.forecasts || []
+	$: city = data?.city
 
 	$: console.log('available', $location.available)
 	$: console.log('checked', $location.checked)
@@ -33,7 +34,7 @@
 <h1>Weathercast SK</h1>
 
 <hr />
-<LocationSelection />
+<LocationSelection {city} />
 <hr />
 {#if current}
 	<CurrentConditions {...current} />

@@ -39,5 +39,5 @@ export async function load({ fetch, url }) {
 		console.log('fetched failed', e)
 	}
 
-	return { current, forecasts }
+	return { current, forecasts, city }
 }
