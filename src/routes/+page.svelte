@@ -31,11 +31,8 @@
 	}
 </script>
 
-<h1>Weathercast SK</h1>
-
-<hr />
 <LocationSelection {city} />
-<hr />
+
 {#if current}
 	<CurrentConditions {...current} />
 

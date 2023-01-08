@@ -4,13 +4,11 @@ import { getOpenMeteoApiPath, transformDaily } from './helpers'
 /** @type {import('./$types').PageLoad} */
 export async function load({ fetch, url }) {
 	const params = url.searchParams
+	const city = params.get('city')
 	let latitude = params.get('latitude')
 	let longitude = params.get('longitude')
-	const city = params.get('city')
-
 	/** @type {import('$lib/types').CurrentWeather | null} */
 	let current = null
-
 	/** @type {import('$lib/types').Forecast[] | null} */
 	let forecasts = null
 
